@@ -27,7 +27,7 @@ body {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .error-msg {
@@ -121,9 +121,9 @@ body {
   border: none;
   background: none;
   padding: 0;
-  width: 0;
+  width: 30px;
   margin-left: 2rem;
-  margin-right: 2rem;
+  margin-right: 1rem;
   margin-bottom: .5rem;
   position: relative;
   cursor: pointer;

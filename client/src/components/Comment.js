@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { usePost } from '../contexts/PostContext'
 import { CommentButton } from './CommentButton'
 import { CommentList } from './CommentList';
@@ -9,7 +10,7 @@ export function Comment({ id, message, user, createdAt }) {
 
     const { getReplies } = usePost()
     const childComments = getReplies(id)
-    const areChildrenHidden = false
+    const [areChildrenHidden, setAreChildrenHidden] = useState(false)
     
     return <>
         <div className='comment'> 
@@ -31,12 +32,22 @@ export function Comment({ id, message, user, createdAt }) {
         </div>
 
         {childComments?.length > 0 && (
-            <div className={`nested-comments-stack ${areChildrenHidden ? "hide" : ""}`}>
-                <button className='collapse-line' area-label='Hide Replies' />
-                <div className='nested-comments'>
-                    <CommentList comments={childComments} />
+            <>
+                <div className={`nested-comments-stack ${areChildrenHidden ? "hide" : ""}`}>
+                    <button 
+                        className='collapse-line' 
+                        area-label='Hide Replies' 
+                        onClick={() => setAreChildrenHidden(true)}
+                    />
+                    <div className='nested-comments'>
+                        <CommentList comments={childComments} />
+                    </div>
                 </div>
-            </div>
+                <button 
+                    className={`${!areChildrenHidden ? "hide" : ""}`} 
+                    onClick={() => setAreChildrenHidden(false)}
+                >Show Replies</button>
+            </>
         )}
     </>
 }
