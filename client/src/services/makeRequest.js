@@ -8,7 +8,7 @@ const api = axios.create({
 export function makeRequest(url, options) {
     return api(url, options)
         .then(res => {
-            console.log(res)
+            // console.log(JSON.stringify(res.data))
             return res.data
         })
         .catch(error => Promise.reject(error?.response?.data?.message ?? "Error"))
