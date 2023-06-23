@@ -1,8 +1,18 @@
 import { usePost } from '../contexts/PostContext'
+import { useAsyncFn } from '../hooks/useAsync'
+import { createComment } from '../services/comments'
 import { CommentList } from './CommentList'
+import { CommentForm } from './CommentForm'
 
 export function Post() {
-    const { post, rootComments } = usePost()
+    const { post, rootComments, createLocalComment } = usePost()
+    const { loading, error, execute: createCommentFn } = useAsyncFn(createComment)
+
+    function onCommentCreate(message) {
+        return createCommentFn({ postId: post.id, message }).then(
+            createLocalComment
+        )
+    }
 
     return (
         <div className='post'>
@@ -14,6 +24,11 @@ export function Post() {
                     <CommentList comments={rootComments} />
                 )}
             </section>
+            <CommentForm 
+                loading={loading} 
+                error={error} 
+                onSubmit={onCommentCreate} 
+            />
         </div>
     )
 }
