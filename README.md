@@ -1,16 +1,30 @@
 # Getting started
 
-### 1. Start database
+### 1. Create *.env* files in **client** and server **folder** and fill in the following
+
+Client *.env*:
+```
+REACT_APP_SERVER_URL=
+```
+
+Server *.env*:
+```
+DATABASE_URL=
+PORT=
+CLIENT_URL=
+```
+
+### 2. Start database
 
 Open the Postgres app and click **start**
 
-### 2. Start server
+### 3. Start server
 
 - Navigate to project directory
 - Within project directory, navigate to **server** folder with `cd server`
 - Start server with `npm run devStart`
 
-### 3. Start client
+### 4. Start client
 
 - Navigate to project directory
 - Within project directory, navigate to **client** folder with `cd client`
