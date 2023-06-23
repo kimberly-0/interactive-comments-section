@@ -38,7 +38,7 @@ postsRouter.get("/:id", async (req, res) => {
             title: true,
             comments: {
                 orderBy: { 
-                    createdAt: "desc"
+                    createdAt: "asc"
                 },
                 select: COMMENT_SELECT_FIELDS
             }

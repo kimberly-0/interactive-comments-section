@@ -34,7 +34,7 @@ export function PostProvider({ children }) {
 
     function createLocalComment(comment) {
         setComments(prevComments => {
-            return [comment, ...prevComments]
+            return [...prevComments, comment]
         })
     }
 
