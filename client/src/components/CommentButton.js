@@ -4,7 +4,7 @@ export function CommentButton({ Icon, isActive, color, children, ...props }) {
             className={`button icon-button ${isActive ? "icon-button-active" : ""} ${color || ""}`}
             {...props}
         >
-            <span className={`${children != null ? "mr-1" : ""}`}>
+            <span className={`${children != null ? "icon-with-text" : ""}`}>
                 <Icon />
             </span>
             { children }
