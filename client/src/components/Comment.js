@@ -7,6 +7,7 @@ import { getTimeSince } from '../utils/date'
 import { FaHeart, FaReply, FaTrash, FaEdit } from 'react-icons/fa'
 import avatarSrc from '../assets/image-juliusomo.png';
 import { useAsyncFn } from "../hooks/useAsync"
+import { useUser } from '../hooks/useUser'
 import { createComment, updateComment, deleteComment } from "../services/comments"
 
 export function Comment({ id, message, user, createdAt }) {
@@ -22,6 +23,8 @@ export function Comment({ id, message, user, createdAt }) {
     const deleteCommentFn = useAsyncFn(deleteComment)
 
     const childComments = getReplies(id)
+
+    const currentUser = useUser()
 
     function onCommentReply(message) {
         return createCommentFn
@@ -63,7 +66,9 @@ export function Comment({ id, message, user, createdAt }) {
                     <div className='comment-info'>
                         <img className='user-avatar' src={avatarSrc} alt='user avatar' />
                         <h5 className='user-name'>{user.name}</h5>
-                        <p className='user-label'>you</p>
+                        {user.id === currentUser.id && (
+                            <p className='user-label'>you</p>
+                        )}
                         <p className='time-since'>{getTimeSince(createdAt)}</p>
                     </div>
                     <div className='comment-actions'>
@@ -77,18 +82,20 @@ export function Comment({ id, message, user, createdAt }) {
                             Icon={FaReply} 
                             aria-label={isReplying ? "Cancel Reply" : "Reply"} 
                         />
-                        <CommentButton 
-                            disabled={deleteCommentFn.loading}
-                            onClick={onCommentDelete}
-                            Icon={FaTrash} 
-                            aria-label="Delete" 
-                            color="danger" 
-                        />
-                        <CommentButton 
-                            onClick={() => setIsEditing(prev => !prev)}
-                            Icon={FaEdit} 
-                            aria-label={isEditing ? "Cancel Edit" : "Edit"}  
-                        />
+                        {user.id === currentUser.id && (<>
+                            <CommentButton 
+                                onClick={() => setIsEditing(prev => !prev)}
+                                Icon={FaEdit} 
+                                aria-label={isEditing ? "Cancel Edit" : "Edit"}  
+                            />
+                            <CommentButton 
+                                disabled={deleteCommentFn.loading}
+                                onClick={onCommentDelete}
+                                Icon={FaTrash} 
+                                aria-label="Delete" 
+                                color="danger" 
+                            />
+                        </>)}
                     </div>
                     
                 </div>
