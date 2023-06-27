@@ -31,3 +31,7 @@ Open the Postgres app and click **start**
 - Start client with `npm start`
 
 **Application will be running on <http://localhost:3000/>**
+
+### 5. Change logged-in user
+
+- You can change the currently logged-in user by changing the username in server/api/user.js
