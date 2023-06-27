@@ -11,7 +11,9 @@ export function Post() {
     function onCommentCreate(message) {
         return createCommentFn({ postId: post.id, message }).then(
             createLocalComment
-        )
+        ).catch(error => {
+            console.log("Caught an error: " + error)
+        })
     }
 
     return (
