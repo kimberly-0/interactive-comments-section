@@ -56,11 +56,30 @@ postsRouter.get("/:postId", async (req, res) => {
                 orderBy: { 
                     createdAt: "asc"
                 },
-                select: COMMENT_SELECT_FIELDS
+                select: {
+                    ...COMMENT_SELECT_FIELDS,
+                    _count: { select: { likes: true } }
+                }
             }
         }
-    }).then(post => {
-        return res.status(200).json(post)
+    }).then(async post => {
+        const likes = await prisma.like.findMany({
+            where: {
+                userId: req.cookies.userId,
+                commentId: { in: post.comments.map(comment => comment.id) }
+            }
+        })
+        return res.status(200).json({
+            ...post,
+            comments: post.comments.map(comment => {
+                const {_count, ... commentFields} = comment
+                return {
+                    ...commentFields,
+                    likedByMe: likes.find(like => like.commentId === comment.id),
+                    likeCount: _count.likes
+                }
+            })
+        })
     }).catch(error => {
         console.log(error)
         return res.status(400).send("Post not found");

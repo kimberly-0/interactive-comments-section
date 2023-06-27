@@ -48,7 +48,7 @@ commentsRouter.post("/", async (req, res) => {
         return res.status(201).send({
             ...comment,
           likeCount: 0,
-          likedByMe: false,
+          likedByMe: false
         })
     }).catch(error => {
         console.log(error)
@@ -91,6 +91,38 @@ commentsRouter.delete("/:commentId", async (req, res) => {
         console.log(error)
         return res.status(400).send("Unable to delete comment");
     })
+})
+
+commentsRouter.post("/:commentId/toggleLike", async (req, res) => {
+    const data = {
+        commentId: req.comment.id,
+        userId: req.cookies.userId
+    }
+
+    const like = await prisma.like.findUnique({
+        where: { userId_commentId: data }
+    })
+
+    if (like == null) {
+        return await prisma.like.create({ data })
+            .then(() => {
+                return res.status(201).send({ addLike: true })
+            }).catch(error => {
+                console.log(error)
+                return res.status(400).send("Unable to like comment");
+            })
+    } else {
+        return await prisma.like.delete({ where: { userId_commentId: data } })
+            .then(() => {
+                return res.status(201).send({ addLike: false })
+            }).catch(error => {
+                console.log(error)
+                return res.status(400).send("Unable to like comment");
+            })
+
+    }
+
+
 })
 
 module.exports = commentsRouter;

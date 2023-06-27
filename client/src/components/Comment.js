@@ -4,23 +4,25 @@ import { CommentButton } from './CommentButton'
 import { CommentList } from './CommentList';
 import { CommentForm } from './CommentForm'
 import { getTimeSince } from '../utils/date'
-import { FaHeart, FaReply, FaTrash, FaEdit } from 'react-icons/fa'
-import avatarSrc from '../assets/image-juliusomo.png';
+import { FaHeart, FaRegHeart, FaReply, FaTrash, FaEdit } from 'react-icons/fa'
 import { useAsyncFn } from "../hooks/useAsync"
 import { useUser } from '../hooks/useUser'
-import { createComment, updateComment, deleteComment } from "../services/comments"
+import { createComment, updateComment, deleteComment, toggleCommentLike } from "../services/comments"
 
-export function Comment({ id, message, user, createdAt }) {
+import avatarSrc from '../assets/image-juliusomo.png';
+
+export function Comment({ id, message, user, createdAt, likeCount, likedByMe }) {
 
     const [areChildrenHidden, setAreChildrenHidden] = useState(false)
     const [isReplying, setIsReplying] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
 
-    const { post, getReplies, createLocalComment, updateLocalComment, deleteLocalComment } = usePost()
+    const { post, getReplies, createLocalComment, updateLocalComment, deleteLocalComment, toggleLocalCommentLike } = usePost()
 
     const createCommentFn = useAsyncFn(createComment)
     const updateCommentFn = useAsyncFn(updateComment)
     const deleteCommentFn = useAsyncFn(deleteComment)
+    const toggleCommentLikeFn = useAsyncFn(toggleCommentLike)
 
     const childComments = getReplies(id)
 
@@ -58,6 +60,15 @@ export function Comment({ id, message, user, createdAt }) {
                 console.log("Caught an error: " + error)
             })
     }
+
+    function onToggleCommentLike() {
+        return toggleCommentLikeFn
+            .execute({ postId: post.id, id })
+            .then(({ addLike }) => toggleLocalCommentLike(id, addLike))
+            .catch(error => {
+                console.log("Caught an error: " + error)
+            })
+    }
     
     return (
         <>
@@ -73,9 +84,11 @@ export function Comment({ id, message, user, createdAt }) {
                     </div>
                     <div className='comment-actions'>
                         <CommentButton 
-                            Icon={FaHeart} 
-                            aria-label="Like"
-                        >2</CommentButton>
+                            onClick={onToggleCommentLike}
+                            disabled={toggleCommentLikeFn.loading}
+                            Icon={likedByMe ? FaHeart : FaRegHeart} 
+                            aria-label={likedByMe ? "Unlike" : "Like"}
+                        >{likeCount}</CommentButton>
                         <CommentButton 
                             onClick={() => setIsReplying(prev => !prev)}
                             isActive={isReplying}
