@@ -9,8 +9,6 @@ import { useAsyncFn } from "../hooks/useAsync"
 import { useUser } from '../hooks/useUser'
 import { createComment, updateComment, deleteComment, toggleCommentLike } from "../services/comments"
 
-import avatarSrc from '../assets/image-juliusomo.png';
-
 export function Comment({ id, message, user, createdAt, likeCount, likedByMe }) {
 
     const [areChildrenHidden, setAreChildrenHidden] = useState(false)
@@ -75,7 +73,7 @@ export function Comment({ id, message, user, createdAt, likeCount, likedByMe }) 
             <div className='comment'> 
                 <div className='comment-header'>
                     <div className='comment-info'>
-                        <img className='user-avatar' src={avatarSrc} alt='user avatar' />
+                        <img className='user-avatar' src={require(`../assets/image-${user.name}.png`)} alt='user avatar' />
                         <h5 className='user-name'>{user.name}</h5>
                         {user.id === currentUser.id && (
                             <p className='user-label'>you</p>
