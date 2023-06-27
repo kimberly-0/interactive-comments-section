@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import avatar from '../assets/image-juliusomo.png';
 
-export function CommentForm({loading, error, onSubmit, autoFocus = false, initialValue = ""}) {
-    const [message, setMessage] = useState("")
+export function CommentForm({loading, error, onSubmit, autoFocus = false, showAvatar = true, initialValue = ""}) {
+    const [message, setMessage] = useState(initialValue)
 
     function handleSubmit(e) {
         e.preventDefault()
-        onSubmit(message).then(() => setMessage(initialValue))
+        onSubmit(message).then(() => setMessage(""))
     }
 
     return (  
         <form className='comment-form' onSubmit={handleSubmit}>
             <div className='comment-form-row'>
-                <img className='user-avatar' src={avatar} />
+                {showAvatar && <img className='user-avatar' src={avatar} alt='user avatar' />}
                 <textarea 
                     autoFocus={autoFocus}
                     className='comment-input' 
