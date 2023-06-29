@@ -2,9 +2,8 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function onRequestHook (req, res, next) {
-    // Change name to log in as a different person: 'juliusomo', 'maxblagun', 'ramsesmiron', or 'amyrobson'
     const CURRENT_USER_ID = (
-        await prisma.user.findFirst({ where: { name: "juliusomo" } }).then(user => {
+        await prisma.user.findFirst({ where: { name: process.env.LOGGED_IN_USER } }).then(user => {
             return user.id
         }).catch(error => {
             console.log(error)
