@@ -1,6 +1,6 @@
 # Interactive comments section preview
 
-![app preview](<https://github.com/kidijkmans/interactive-comments-section/blob/master/preview.png>)
+![app preview](<https://github.com/kidijkmans/interactive-comments-section/blob/master/Preview.png>)
 
 # Getting started
 
