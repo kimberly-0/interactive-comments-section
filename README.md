@@ -16,27 +16,13 @@
 ### 3. Start database
 
 - Open the Postgres app and click **start**
-
-*If not already done (or if changes were made to prisma schema):*
 - Migrate database (create tables): in server folder `npx prisma migrate dev`
 - Seed database (add data): in server folder `npx prisma db seed`
 
-### 3. Create *.env* files in client and server folder and add the following with the correct information filled in
+### 3. Update environment variables
 
-**Client** *.env*:
-```
-REACT_APP_SERVER_URL=
-```
-
-**Server** *.env*:
-```
-DATABASE_URL=
-PORT=
-CLIENT_URL=
-
-# Change name to log in as a different person: maxblagun, ramsesmiron, or amyrobson
-LOGGED_IN_USER="juliusomo" 
-```
+- Complete information in '*.env-sample*' files in the **client** and **server** folders
+- Rename files to '*.env*'
 
 ### 4. Start client and server
 
