@@ -1,25 +1,28 @@
 const express = require('express')
 const app = express()
-
+const path = require('path')
 const dotenv = require('dotenv')
-dotenv.config()
-
 const cors = require('cors')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+
+dotenv.config()
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true
 }))
-
-const bodyParser = require('body-parser')
 app.use(bodyParser.json())
-
-const cookieParser = require('cookie-parser')
 app.use(cookieParser({
     secret: process.env.COOKIE_SECRET
 }))
 
 const apiRouter = require('./api/api')
 app.use('/api', apiRouter)  
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 app.listen({
     port: process.env.PORT || 3001
