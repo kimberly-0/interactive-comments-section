@@ -108,7 +108,6 @@ export function Comment({ id, message, user, createdAt, likeCount, likedByMe }) 
                             />
                         </>)}
                     </div>
-                    
                 </div>
 
                 {isEditing ? (
