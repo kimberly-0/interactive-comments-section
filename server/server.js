@@ -12,9 +12,7 @@ app.use(cors({
     credentials: true
 }))
 app.use(bodyParser.json())
-app.use(cookieParser({
-    secret: process.env.COOKIE_SECRET
-}))
+app.use(cookieParser())
 
 const apiRouter = require('./api/api')
 app.use('/api', apiRouter)  
