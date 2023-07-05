@@ -32,6 +32,6 @@ module.exports = app
 
 // send user ID to front end since cookies do not work for cross-domain deployment (in case of deployment of client and server on a single domain, remove the code below
 // const apiRouter = require('./api/api')
-apiRouter.get("/getUserId",  (req, res) => {
-    return res.status(200).json(req.cookies.userId)
-})
+// apiRouter.get("/getUserId",  (req, res) => {
+//     return res.status(200).json(req.cookies.userId)
+// })
